@@ -10,6 +10,8 @@ import routes from "./routes";
 import mongoose from "mongoose";
 import Server from "./server/Server";
 import bodyParser = require("body-parser");
+import sendQueue from "./queue/producer";
+import receiveQueue from "./queue/consumer";
 
 async function main() {
   require("dotenv").config();
@@ -23,6 +25,10 @@ async function main() {
       `suscessfully connect to http://localhost:${process.env.PORT}/api`
     );
   });
+  // receiveQueue();
+  const msg = process.argv.slice(2).join('') || 'Hello'
+  // console.log(msg);
+  sendQueue({ msg })
 }
 
 main()
