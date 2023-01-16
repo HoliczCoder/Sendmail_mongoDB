@@ -21,16 +21,19 @@ export const createSubscriber = async (req: Request, res: Response) => {
 
 export const getSubscriber = async (req: Request, res: Response) => {
   try {
-    // const subscriber = new Subscriber({});
-
-    // const result = await subscriber.;
     const Subscriber = mongoose.model("Subscriber");
-    Subscriber.find({}, function (err: any, docs: any) {
+    const result = await Subscriber.find({}, function (err: any, docs: any) {
       if (err) {
         console.log(err);
       } else {
-        console.log("First function call : ", docs);
+        // console.log("First function call : ", docs);
+        res.status(200).json(result);
       }
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({
+      error,
+    });
+  }
 };
