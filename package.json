@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/amqplib": "^0.10.1",
+    "@types/validator": "^13.7.10",
     "amqplib": "^0.10.3",
     "body-parser": "^1.20.1",
     "cookie-parser": "~1.4.4",
@@ -37,6 +38,6 @@
     "tsc-watch": "^4.2.3",
     "typedoc": "^0.21.4",
     "typedoc-gitlab-wiki-theme": "^0.1.2",
-    "typescript": "^3.9.10"
+    "typescript": "^4.9.4"
   }
 }

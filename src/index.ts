@@ -1,21 +1,12 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
 let cors = require("cors");
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-import routes from "./routes";
+import routes from "./routes/routes.index";
 import mongoose from "mongoose";
 import Server from "./server/Server";
-import bodyParser = require("body-parser");
-import sendQueue from "./queue/producer";
-import receiveQueue from "./queue/consumer";
+var bodyParser = require("body-parser");
 
 async function main() {
   require("dotenv").config();
-  mongoose.connect(process.env.DATABASE_URL as string);
+  const result = await mongoose.connect(process.env.DATABASE_URL as string);
   const server = Server.init(Number(process.env.PORT));
   server.app.use(cors());
   server.app.use(bodyParser.json());
@@ -25,10 +16,6 @@ async function main() {
       `suscessfully connect to http://localhost:${process.env.PORT}/api`
     );
   });
-  // receiveQueue();
-  const msg = process.argv.slice(2).join('') || 'Hello'
-  // console.log(msg);
-  sendQueue({ msg })
 }
 
 main()
