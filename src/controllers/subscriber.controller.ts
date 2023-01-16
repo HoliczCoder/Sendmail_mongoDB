@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Subscriber } from "../models/subscriber.model";
+import mongoose from "mongoose";
 export const createSubscriber = async (req: Request, res: Response) => {
   try {
     const subscriber = new Subscriber({
@@ -16,4 +17,20 @@ export const createSubscriber = async (req: Request, res: Response) => {
       error,
     });
   }
+};
+
+export const getSubscriber = async (req: Request, res: Response) => {
+  try {
+    // const subscriber = new Subscriber({});
+
+    // const result = await subscriber.;
+    const Subscriber = mongoose.model("Subscriber");
+    Subscriber.find({}, function (err: any, docs: any) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("First function call : ", docs);
+      }
+    });
+  } catch (error) {}
 };
