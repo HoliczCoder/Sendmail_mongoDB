@@ -1,9 +1,9 @@
-const amqplib = require('amqplib');
+import amqplib from 'amqplib';
 require("dotenv").config();
 
 const sendQueue = async ({ msg }: { msg: string }) => {
     try {
-        const conn = await amqplib.connect(process.env.AMPQ_URL_CLOUD)
+        const conn = await amqplib.connect(process.env.AMPQ_URL_CLOUD as string)
         const channel = await conn.createChannel();
         const nameQueue = "q1"
         await channel.assertQueue(nameQueue, {
