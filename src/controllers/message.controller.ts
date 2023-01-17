@@ -18,12 +18,12 @@ const cateogries = [
 ];
 const limitNumber = 10; // limit 10 subscriber each send batch
 const handleQueue = async (msg: any) => {
-  console.log(
-    "Routing key category",
-    msg?.fields.routingKey,
-    "massage",
-    msg?.content.toString()
-  );
+//   console.log(
+//     "Routing key category",
+//     msg?.fields.routingKey,
+//     "massage",
+//     msg?.content.toString()
+//   );
   // get all subscriber
   const Subscriber = mongoose.model("Subscriber");
   const subscriber = await Subscriber.find({});
