@@ -16,14 +16,43 @@ const cateogries = [
   "Product",
   "Other",
 ];
+const limitNumber = 10; // limit 10 subscriber each send batch
+const handleQueue = async (msg: any) => {
+  console.log(
+    "Routing key category",
+    msg?.fields.routingKey,
+    "massage",
+    msg?.content.toString()
+  );
+  // get all subscriber
+  const Subscriber = mongoose.model("Subscriber");
+  const subscriber = await Subscriber.find({});
+  for (let i = 0; i < subscriber.length; i += limitNumber) {
+    const requests = subscriber.slice(i, i + limitNumber).map((user) => {
+      // Send mail here
+      try {
+        if (user.category.includes(msg?.fields.routingKey)) {
+          //send mail
+          console.log(
+            `subscriber ${user.subscriberName} have received email ${
+              msg?.fields.routingKey
+            } with content ${msg?.content.toString()}`
+          );
+        }
+      } catch (error) {
+        console.log(`Error send mail to subscriber ${error}`);
+      }
+    });
+
+    await Promise.all(requests).catch((e) =>
+      console.log(`Error in sending email for the batch ${i} - ${e}`)
+    );
+    // Catch the error.
+  }
+};
+
 export const createMessage = async (req: Request, res: Response) => {
   try {
-    // create consumer
-
-    // get all subscriber
-    const Subscriber = mongoose.model("Subscriber");
-    const subscriber = await Subscriber.find({});
-
     // create channel
     const conn = await amqplib.connect(process.env.AMPQ_URL_CLOUD as string);
     const channel = await conn.createChannel();
@@ -38,14 +67,7 @@ export const createMessage = async (req: Request, res: Response) => {
         await channel.bindQueue(queue, nameExchange, key);
         // consume email
         //   const result = [];
-        await channel.consume(queue, (msg) => {
-          console.log(
-            "Routing key category",
-            msg?.fields.routingKey,
-            "massage",
-            msg?.content.toString()
-          );
-        });
+        await channel.consume(queue, (msg) => handleQueue(msg));
       })
     );
 
