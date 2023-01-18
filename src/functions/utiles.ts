@@ -9,11 +9,11 @@ export const sendMail = async (
   try {
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
+      host: "smtp.gmail",
       port: 587,
       auth: {
-        user: "annamae.goyette69@ethereal.email",
-        pass: "9M48PWqUBywcYg7YmB",
+        user: process.env.USER_EMAIL,
+        pass:  process.env.USER_PASS,
       },
     });
 
