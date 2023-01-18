@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Subscriber } from "../models/subscriber.model";
+import { sendMail } from "../functions/utiles";
 import amqplib from "amqplib";
 import mongoose from "mongoose";
 
@@ -16,37 +17,34 @@ const cateogries = [
   "Product",
   "Other",
 ];
-const limitNumber = 10; // limit 10 subscriber each send batch
+const limitNumber = 1; // limit 10 subscriber each send batch
 const handleQueue = async (msg: any) => {
-//   console.log(
-//     "Routing key category",
-//     msg?.fields.routingKey,
-//     "massage",
-//     msg?.content.toString()
-//   );
   // get all subscriber
   const Subscriber = mongoose.model("Subscriber");
   const subscriber = await Subscriber.find({});
   for (let i = 0; i < subscriber.length; i += limitNumber) {
-    const requests = subscriber.slice(i, i + limitNumber).map((user) => {
+    const requests = subscriber.slice(i, i + limitNumber).map(async (user) => {
       // Send mail here
       try {
         if (user.category.includes(msg?.fields.routingKey)) {
           //send mail
-          console.log(
-            `subscriber ${user.subscriberName} have received email ${
-              msg?.fields.routingKey
-            } with content ${msg?.content.toString()}`
-          );
+          // console.log(
+          //   `subscriber ${user.subscriberName} have received email ${
+          //     msg?.fields.routingKey
+          //   } with content ${msg?.content.toString()}`
+          // );
+          const result = await sendMail(msg, user.email, user.subscriberName);
+          console.log(result);
         }
       } catch (error) {
         console.log(`Error send mail to subscriber ${error}`);
       }
     });
 
-    await Promise.all(requests).catch((e) =>
-      console.log(`Error in sending email for the batch ${i} - ${e}`)
-    );
+    await Promise.all(requests).catch((e) => {
+      console.log(`Error in sending email for the batch ${i} - ${e}`);
+      throw e;
+    });
     // Catch the error.
   }
 };

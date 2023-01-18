@@ -31,3 +31,16 @@ export const getSubscriber = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const deleteSubscriber = async (req: Request, res: Response) => {
+  try {
+    const Subscriber = mongoose.model("Subscriber");
+    const result = await Subscriber.deleteOne({ name: req.body.name });
+    res.status(200).json(result);
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({
+      error,
+    });
+  }
+};
