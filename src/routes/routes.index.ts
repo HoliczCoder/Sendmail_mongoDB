@@ -2,6 +2,7 @@ import { Router } from "express";
 import { Request, Response } from "express";
 import subsciberRouter from "./subscriber.routes";
 import messageRouter from "./message.routes"
+import courseRouter from "./course.routes"
 
 const routes = Router();
 
@@ -13,4 +14,5 @@ const routes = Router();
 // });
 routes.use("/message", messageRouter)
 routes.use("/subscriber", subsciberRouter);
+routes.use("/course", courseRouter)
 export default routes;

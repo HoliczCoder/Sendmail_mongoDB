@@ -1,0 +1,1 @@
+{"version":3,"file":"subscriber.model.js","sourceRoot":"","sources":["../../src/models/subscriber.model.ts"],"names":[],"mappings":";;;;;;AAAA,sDAAgC;AAIhC,IAAM,UAAU,GAAG,IAAI,kBAAQ,CAAC,MAAM,CAAC;IACnC,cAAc,EAAE,MAAM;IACtB,KAAK,EAAE,MAAM;IACb,QAAQ,EAAE,EAAE;CACf,CAAC,CAAA;AAEW,QAAA,UAAU,GAAG,kBAAQ,CAAC,KAAK,CAAC,YAAY,EAAE,UAAU,CAAC,CAAC"}

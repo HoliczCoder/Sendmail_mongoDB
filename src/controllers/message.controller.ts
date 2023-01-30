@@ -89,3 +89,40 @@ export const createMessage = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const sendMessageAutomate = async ( message: string)=> {
+  try {
+    // create channel
+    const conn = await amqplib.connect(process.env.AMPQ_URL_CLOUD as string);
+    const channel = await conn.createChannel();
+    const nameExchange = "CATEGORY";
+    await channel.assertExchange(nameExchange, "topic", { durable: false });
+
+    // binding
+    await Promise.all(
+      cateogries.map(async (key) => {
+        // create queue with key as queue name
+        const { queue } = await channel.assertQueue(key, { exclusive: true });
+        await channel.bindQueue(queue, nameExchange, key);
+        // consume email
+        //   const result = [];
+        await channel.consume(queue, (msg) => handleQueue(msg));
+      })
+    );
+    // create provider
+    const msg = message;
+    // send message
+    cateogries.forEach(async (topic) => {
+      await channel.publish(
+        nameExchange,
+        topic,
+        Buffer.from(`${msg} from ${topic}`)
+      );
+    });
+    return ("send message to admin to notice sending is okie");
+  } catch (error) {
+    console.log("error", error);
+    return ("send message to admin to notice sending is not okie");
+  }
+
+}

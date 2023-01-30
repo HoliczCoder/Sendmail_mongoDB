@@ -3,6 +3,7 @@ import routes from "./routes/routes.index";
 import mongoose from "mongoose";
 import Server from "./server/Server";
 var bodyParser = require("body-parser");
+import { executableCron } from "./functions/cronJobs";
 
 async function main() {
   require("dotenv").config();
@@ -16,6 +17,8 @@ async function main() {
       `suscessfully connect to http://localhost:${process.env.PORT}/api`
     );
   });
+  // execute cron
+  executableCron()
 }
 
 main()
