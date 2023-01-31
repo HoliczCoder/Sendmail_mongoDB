@@ -11,7 +11,7 @@ function findUser(userId: number) {
   return users.find((user) => user.id === userId);
 }
 
-const authUser = (req: Request, res: Response, next: NextFunction) => {
+export const authUser = (req: Request, res: Response, next: NextFunction) => {
   const { userId } = req.body;
   if (!userId) {
     return res.status(403).json({
