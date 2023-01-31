@@ -11,33 +11,8 @@ function findUser(userId: number) {
   return users.find((user) => user.id === userId);
 }
 
-export const authPage = (permisson: Array<String>) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    const { userId } = req.body;
-    if (!userId) {
-      return res.status(403).json({
-        res: "you need to sign in",
-      });
-    }
-    const user = findUser(userId);
-    if (!user) {
-      return res.status(403).json({
-        res: "user not found",
-      });
-    }
-    const { role } = user;
-    if (!permisson.includes(role)) {
-      return res.status(401).json({
-        res: "you dont have permisson",
-      });
-    }
-    next();
-  };
-};
-
-export const authCourse = (req: Request, res: Response, next: NextFunction) => {
+const authUser = (req: Request, res: Response, next: NextFunction) => {
   const { userId } = req.body;
-  const { number } = req.params;
   if (!userId) {
     return res.status(403).json({
       res: "you need to sign in",
@@ -45,15 +20,37 @@ export const authCourse = (req: Request, res: Response, next: NextFunction) => {
   }
   const user = findUser(userId);
   if (!user) {
-    return res.status(403).json({
-      res: "user not found",
-    });
+    return res.status(403).json("You need to sign in");
   }
-  const { courses } = user;
-  if (!courses.includes(+number)) {
-    return res.status(401).json({
-      res: "course not found",
-    });
+  req.user = user;
+  next();
+};
+
+export const authPage = (permisson: Array<String>) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const role = user?.role;
+    if (role) {
+      if (!permisson.includes(role)) {
+        return res.status(401).json({
+          res: "you dont have permisson",
+        });
+      }
+    }
+    next();
+  };
+};
+
+export const authCourse = (req: Request, res: Response, next: NextFunction) => {
+  const { number } = req.params;
+  const user = req.user;
+  const courses = user?.courses;
+  if (courses) {
+    if (!courses.includes(+number)) {
+      return res.status(401).json({
+        res: "course not found",
+      });
+    }
   }
   next();
 };
