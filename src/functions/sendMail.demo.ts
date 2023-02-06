@@ -1,5 +1,6 @@
 import { google } from "googleapis";
 import * as nodemailer from "nodemailer";
+import sgMail from "@sendgrid/mail";
 require("dotenv").config();
 
 const YOUR_CLIENT_ID = process.env.CLIENT_ID;
@@ -33,7 +34,7 @@ const sendMail = async () => {
       });
       let info = await transporter.sendMail({
         from: '"Admin" <nguyenvanduclis97@gmail.com>', // sender address
-        to: "minhtranconglis@gmail.com", // list of receivers
+        to: "thuan.nv035@gmail.com", // list of receivers
         subject: `Weekly subscriber mail `, // Subject line
         html: `<div>Hello World</div>`, // html body
       });
@@ -44,4 +45,28 @@ const sendMail = async () => {
   }
 };
 
-sendMail();
+//////////////////////////////////////////////////////////
+
+function sendMailWithSendGrid() {
+  if (process.env.SENDGRID_API_KEY_SECOND) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY_SECOND);
+    const msg = {
+      to: ["nguyenvanduclis97@gmail.com", "thuan.nv035@gmail.com", "thevu091193@gmail.com"], // replace these with your email addresses
+      from: "Sadie Miller <minhtranconglis@gmail.com>",
+      subject: "🍩 Donuts, at the big donut 🍩",
+      text: "Fresh donuts are out of the oven. Get them while they’re hot!",
+      html: "<p>Fresh donuts are out of the oven. Get them while they’re <em>hot!</em></p>",
+    };
+
+    sgMail
+      .sendMultiple(msg)
+      .then(() => {
+        console.log("emails sent successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+}
+
+sendMailWithSendGrid();

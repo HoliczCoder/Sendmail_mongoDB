@@ -9,6 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
     "@types/amqplib": "^0.10.1",
     "@types/validator": "^13.7.10",
     "amqplib": "^0.10.3",
