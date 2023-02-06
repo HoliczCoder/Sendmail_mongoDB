@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Subscriber } from "../models/subscriber.model";
-import { sendMail } from "../functions/utiles";
+import { sendMail, sendMailBulk } from "../functions/utiles";
 import amqplib from "amqplib";
 import mongoose from "mongoose";
 
@@ -23,29 +23,29 @@ const handleQueue = async (msg: any) => {
   const Subscriber = mongoose.model("Subscriber");
   const subscriber = await Subscriber.find({});
   for (let i = 0; i < subscriber.length; i += limitNumber) {
-    const requests = subscriber.slice(i, i + limitNumber).map(async (user) => {
-      // Send mail here
-      try {
-        if (user.category.includes(msg?.fields.routingKey)) {
-          //send mail
-          // console.log(
-          //   `subscriber ${user.subscriberName} have received email ${
-          //     msg?.fields.routingKey
-          //   } with content ${msg?.content.toString()}`
-          // );
-          const result = await sendMail(msg, user.email, user.subscriberName);
-          console.log(result);
-        }
-      } catch (error) {
-        console.log(`Error send mail to subscriber ${error}`);
-      }
-    });
+    // const requests = subscriber.slice(i, i + limitNumber).map(async (user) => {
+    //   // Send mail here
+    //   try {
+    //     if (user.category.includes(msg?.fields.routingKey)) {
+    //       const result = await sendMail(msg, user.email, user.subscriberName);
+    //       console.log(result);
+    //     }
+    //   } catch (error) {
+    //     console.log(`Error send mail to subscriber ${error}`);
+    //   }
+    // });
 
-    await Promise.all(requests).catch((e) => {
-      console.log(`Error in sending email for the batch ${i} - ${e}`);
-      throw e;
-    });
+    // await Promise.all(requests).catch((e) => {
+    //   console.log(`Error in sending email for the batch ${i} - ${e}`);
+    //   throw e;
+    // });
     // Catch the error.
+    const listUSer = subscriber.slice(i, i + limitNumber);
+    try {
+      const result = await sendMailBulk(msg, listUSer );
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 
@@ -90,7 +90,7 @@ export const createMessage = async (req: Request, res: Response) => {
   }
 };
 
-export const sendMessageAutomate = async ( message: string)=> {
+export const sendMessageAutomate = async (message: string) => {
   try {
     // create channel
     const conn = await amqplib.connect(process.env.AMPQ_URL_CLOUD as string);
@@ -119,10 +119,9 @@ export const sendMessageAutomate = async ( message: string)=> {
         Buffer.from(`${msg} from ${topic}`)
       );
     });
-    return ("send message to admin to notice sending is okie");
+    return "send message to admin to notice sending is okie";
   } catch (error) {
     console.log("error", error);
-    return ("send message to admin to notice sending is not okie");
+    return "send message to admin to notice sending is not okie";
   }
-
-}
+};

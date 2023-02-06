@@ -1,5 +1,6 @@
 import * as nodemailer from "nodemailer";
 import * as jwt from "jsonwebtoken";
+import sgMail from "@sendgrid/mail";
 
 export const sendMail = async (
   message: any,
@@ -13,7 +14,7 @@ export const sendMail = async (
       port: 587,
       auth: {
         user: process.env.USER_EMAIL,
-        pass:  process.env.USER_PASS,
+        pass: process.env.USER_PASS,
       },
     });
 
@@ -27,5 +28,37 @@ export const sendMail = async (
     return info;
   } catch (error) {
     throw error;
+  }
+};
+
+export const sendMailBulk = async (message: any, listUsers: any) => {
+  if (process.env.SENDGRID_API_KEY_SECOND) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY_SECOND);
+
+    const personalizations: any = [];
+    listUsers.array.forEach((user: any) => {
+      personalizations.push({
+        to: user.email, // replace this with your email address
+        subject: `🍩 This is weekly subscriber mail ${message?.fields.routingKey} 🍩`,
+        html: `<h1>Hello ${
+          user.subscriberName
+        }</h1><div>${message?.content.toString()}</div>`, // html body
+      });
+    });
+
+    const msg = {
+      personalizations: [...personalizations],
+      from: "Minh Tran Cong <minhtranconglis@gmail.com>",
+      text: "Fresh donuts are out of the oven. Get them while they’re hot!",
+    };
+
+    sgMail
+      .sendMultiple(msg)
+      .then(() => {
+        console.log("emails sent successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 };
