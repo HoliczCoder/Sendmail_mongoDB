@@ -51,11 +51,28 @@ function sendMailWithSendGrid() {
   if (process.env.SENDGRID_API_KEY_SECOND) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY_SECOND);
     const msg = {
-      to: ["nguyenvanduclis97@gmail.com", "thuan.nv035@gmail.com", "thevu091193@gmail.com"], // replace these with your email addresses
+      // to: ["nguyenvanduclis97@gmail.com", "thuan.nv035@gmail.com", "thevu091193@gmail.com"], // replace these with your email addresses
+      personalizations: [
+        {
+          to: "nguyenvanduclis97@gmail.com", // replace this with your email address
+          subject: "🍩 Hello Duc 🍩",
+          html: "<p>Fresh donuts are out of the oven. Get them while they’re <em>hot!</em></p>",
+        },
+        {
+          to: "thuan.nv035@gmail.com", // replace this with your email address
+          subject: "🍩 Hello Thuan 🍩",
+          html: "<p>Fresh donuts are out of the oven. Get them while they’re <em>hot!</em></p>",
+
+        },
+        {
+          to: "thevu091193@gmail.com", // replace this with your email address
+          subject: "🍩 Hello anh Vu 🍩",
+          html: "<p>Fresh donuts are out of the oven. Get them while they’re <em>hot!</em></p>",
+
+        },
+      ],
       from: "Sadie Miller <minhtranconglis@gmail.com>",
-      subject: "🍩 Donuts, at the big donut 🍩",
       text: "Fresh donuts are out of the oven. Get them while they’re hot!",
-      html: "<p>Fresh donuts are out of the oven. Get them while they’re <em>hot!</em></p>",
     };
 
     sgMail
