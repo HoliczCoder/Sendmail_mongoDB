@@ -31,7 +31,7 @@ const handleQueue = async (msg: any) => {
     //       console.log(result);
     //     }
     //   } catch (error) {
-    //     console.log(`Error send mail to subscriber ${error}`);
+    //     console.log(`Error send mail to subscriber ${error}`); 
     //   }
     // });
 
