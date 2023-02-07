@@ -40,10 +40,23 @@ const handleQueue = async (msg: any) => {
     //   throw e;
     // });
     // Catch the error.
+    const personalizations: any = [];
     const listUSer = subscriber.slice(i, i + limitNumber);
-    if (listUSer.length) {
+    //
+    listUSer.forEach((user) => {
+      if (user.category.includes(msg?.fields.routingKey)) {
+        personalizations.push({
+          to: user.email, // replace this with your email address
+          subject: `🍩 This is weekly subscriber mail ${msg?.fields.routingKey} 🍩`,
+          html: `<h1>Hello ${
+            user.subscriberName
+          }</h1><div>${msg?.content.toString()}</div>`, // html body
+        });
+      }
+    });
+    if (personalizations.length) {
       try {
-        const result = await sendMailBulk(msg, listUSer);
+        const result = await sendMailBulk(msg, personalizations);
       } catch (error) {
         console.log(error);
       }

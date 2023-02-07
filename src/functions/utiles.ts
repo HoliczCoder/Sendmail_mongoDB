@@ -34,20 +34,8 @@ export const sendMail = async (
 export const sendMailBulk = async (message: any, listUsers: any) => {
   if (process.env.SENDGRID_API) {
     sgMail.setApiKey(process.env.SENDGRID_API);
-
-    const personalizations: any = [];
-    listUsers.forEach((user: any) => {
-      personalizations.push({
-        to: user.email, // replace this with your email address
-        subject: `🍩 This is weekly subscriber mail ${message?.fields.routingKey} 🍩`,
-        html: `<h1>Hello ${
-          user.subscriberName
-        }</h1><div>${message?.content.toString()}</div>`, // html body
-      });
-    });
-
     const msg = {
-      personalizations: [...personalizations],
+      personalizations: [...listUsers],
       from: "Nguyen Van Duc <nguyenvanduclis97@gmail.com>",
       text: "Fresh Hambuger are out of the oven. Get them while they’re hot!",
     };
@@ -55,7 +43,10 @@ export const sendMailBulk = async (message: any, listUsers: any) => {
     sgMail
       .sendMultiple(msg)
       .then(() => {
-        console.log(`emails sent successfully with ${message?.fields.routingKey} to!`, listUsers);
+        console.log(
+          `emails sent successfully with ${message?.fields.routingKey} to!`,
+          listUsers
+        );
       })
       .catch((error) => {
         console.log(error);
