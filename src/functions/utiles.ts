@@ -37,7 +37,7 @@ export const sendMailBulk = async (message: any, listUsers: any) => {
     const msg = {
       personalizations: [...listUsers],
       from: "Nguyen Van Duc <nguyenvanduclis97@gmail.com>",
-      text: message,
+      text: message?.content.toString(),
     };
 
     sgMail
