@@ -32,8 +32,8 @@ export const sendMail = async (
 };
 
 export const sendMailBulk = async (message: any, listUsers: any) => {
-  if (process.env.SENDGRID_API_KEY_SECOND) {
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY_SECOND);
+  if (process.env.SENDGRID_API) {
+    sgMail.setApiKey(process.env.SENDGRID_API);
 
     const personalizations: any = [];
     listUsers.forEach((user: any) => {
@@ -48,8 +48,8 @@ export const sendMailBulk = async (message: any, listUsers: any) => {
 
     const msg = {
       personalizations: [...personalizations],
-      from: "Minh Tran Cong <minhtranconglis@gmail.com>",
-      text: "Fresh donuts are out of the oven. Get them while they’re hot!",
+      from: "Nguyen Van Duc <nguyenvanduclis97@gmail.com>",
+      text: "Fresh Hambuger are out of the oven. Get them while they’re hot!",
     };
 
     sgMail

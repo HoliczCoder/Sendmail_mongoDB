@@ -31,7 +31,7 @@ const handleQueue = async (msg: any) => {
     //       console.log(result);
     //     }
     //   } catch (error) {
-    //     console.log(`Error send mail to subscriber ${error}`); 
+    //     console.log(`Error send mail to subscriber ${error}`);
     //   }
     // });
 
@@ -41,10 +41,12 @@ const handleQueue = async (msg: any) => {
     // });
     // Catch the error.
     const listUSer = subscriber.slice(i, i + limitNumber);
-    try {
-      const result = await sendMailBulk(msg, listUSer );
-    } catch (error) {
-      console.log(error);
+    if (listUSer.length) {
+      try {
+        const result = await sendMailBulk(msg, listUSer);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };
