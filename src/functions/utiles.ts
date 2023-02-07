@@ -36,7 +36,7 @@ export const sendMailBulk = async (message: any, listUsers: any) => {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY_SECOND);
 
     const personalizations: any = [];
-    listUsers.array.forEach((user: any) => {
+    listUsers.forEach((user: any) => {
       personalizations.push({
         to: user.email, // replace this with your email address
         subject: `🍩 This is weekly subscriber mail ${message?.fields.routingKey} 🍩`,
@@ -55,7 +55,7 @@ export const sendMailBulk = async (message: any, listUsers: any) => {
     sgMail
       .sendMultiple(msg)
       .then(() => {
-        console.log("emails sent successfully!");
+        console.log(`emails sent successfully with ${message?.fields.routingKey} to!`, listUsers);
       })
       .catch((error) => {
         console.log(error);
