@@ -50,7 +50,8 @@ const handleQueue = async (msg: any) => {
           from: "Minh Tran Cong <minhtranconglis@gmail.com>",
           subject: `🍩 This is weekly subscriber mail ${msg?.fields.routingKey} 🍩`,
           text: msg?.content.toString(),
-          html: mailTemplate(user.subscriberName),
+          html: mailTemplate(user.subscriberName.toString()),
+          // html: `<html><head></head><body><h1><p>Hello ${user.subscriberName},<br /></p></h1></body></html>`
           // substitutions: {
           //   "%fname%": user.subscriberName,
           // },
