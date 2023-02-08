@@ -17,7 +17,7 @@ const cateogries = [
   "Product",
   "Other",
 ];
-const limitNumber = 3; // limit 10 subscriber each send batch
+const limitNumber = 3; // limit number subscriber each send batch
 const handleQueue = async (msg: any) => {
   // get all subscriber
   const Subscriber = mongoose.model("Subscriber");

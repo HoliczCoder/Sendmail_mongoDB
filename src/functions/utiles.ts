@@ -33,7 +33,7 @@ export const sendMail = async (
 
 // send mail bulk here
 
-export const sendMailBulk = async (message: any, listUsers: any) => {
+export const  sendMailBulk = async (message: any, listUsers: any) => {
   if (process.env.SENDGRID_API_KEY_SECOND) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY_SECOND);
     const msg = {
