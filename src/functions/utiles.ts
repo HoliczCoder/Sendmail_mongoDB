@@ -31,12 +31,14 @@ export const sendMail = async (
   }
 };
 
+// send mail bulk here
+
 export const sendMailBulk = async (message: any, listUsers: any) => {
-  if (process.env.SENDGRID_API) {
-    sgMail.setApiKey(process.env.SENDGRID_API);
+  if (process.env.SENDGRID_API_KEY_SECOND) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY_SECOND);
     const msg = {
       personalizations: [...listUsers],
-      from: "Nguyen Van Duc <nguyenvanduclis97@gmail.com>",
+      from: "Minh Tran Cong <minhtranconglis@gmail.com>",
       text: message?.content.toString(),
     };
 
