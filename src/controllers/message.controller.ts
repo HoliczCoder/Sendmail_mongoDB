@@ -51,7 +51,13 @@ const handleQueue = async (msg: any) => {
           // html: `<h1>Hello ${
           //   user.subscriberName
           // }</h1><div>${msg?.content.toString()}</div>`, // html body
-          html: mailTemplate(msg?.content.toString()),
+          // html: mailTemplate(msg?.content.toString()),
+          // substitutions: {
+          //   "-name-": user.subscriberName,
+          // },
+          substitutions: {
+            "%fname%": user.subscriberName,
+          },
         });
       }
     });
