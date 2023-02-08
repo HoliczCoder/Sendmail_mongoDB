@@ -33,22 +33,20 @@ export const sendMail = async (
 
 // send mail bulk here
 
-export const sendMailBulk = async (message: any, listUsers: any) => {
+export const sendMailBulk = async (message: any, personalizations: any) => {
   if (process.env.SENDGRID_API_KEY_SECOND) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY_SECOND);
-    const msg = {
-      personalizations: [...listUsers],
-      from: "Minh Tran Cong <minhtranconglis@gmail.com>",
-      text: message?.content.toString(),
-      html: "<html><head></head><body><h1><p>Hello %fname%,<br /></p></h1></body></html>",
-    };
-
+    const msg = [...personalizations];
+    // personalizations: [...personalizations],
+    // from: "Minh Tran Cong <minhtranconglis@gmail.com>",
+    // text: message?.content.toString(),
+    // html: "<html><head></head><body><h1><p>Hello %fname%,<br /></p></h1></body></html>",
     sgMail
-      .sendMultiple(msg)
+      .send(msg)
       .then(() => {
         console.log(
           `emails sent successfully with ${message?.fields.routingKey} to!`,
-          listUsers
+          personalizations
         );
       })
       .catch((error) => {

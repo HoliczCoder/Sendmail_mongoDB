@@ -47,17 +47,13 @@ const handleQueue = async (msg: any) => {
       if (user.category.includes(msg?.fields.routingKey)) {
         personalizations.push({
           to: user.email, // replace this with your email address
+          from: "Minh Tran Cong <minhtranconglis@gmail.com>",
           subject: `🍩 This is weekly subscriber mail ${msg?.fields.routingKey} 🍩`,
-          // html: `<h1>Hello ${
-          //   user.subscriberName
-          // }</h1><div>${msg?.content.toString()}</div>`, // html body
-          // html: mailTemplate(msg?.content.toString()),
+          text: msg?.content.toString(),
+          html: mailTemplate(user.subscriberName),
           // substitutions: {
-          //   "-name-": user.subscriberName,
+          //   "%fname%": user.subscriberName,
           // },
-          substitutions: {
-            "%fname%": user.subscriberName,
-          },
         });
       }
     });

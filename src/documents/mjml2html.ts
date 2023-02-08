@@ -8,7 +8,7 @@ export default function mailTemplate(message: string) {
     <mj-container>
       <mj-section>
         <mj-column>
-          <mj-text>{{message}}</mj-text>
+          <mj-text>Hello {{message}}</mj-text>
         </mj-column>
       </mj-section>
     </mj-container>
