@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
-import { Subscriber } from "../models/subscriber.model";
-import { sendMail, sendMailBulk } from "../functions/utiles";
 import amqplib from "amqplib";
+import { Request, Response } from "express";
 import mongoose from "mongoose";
+import { sendMailBulk } from "../functions/utiles";
+import mailTemplate from "../documents/mjml2html";
 
 const cateogries = [
   "All",
@@ -48,9 +48,10 @@ const handleQueue = async (msg: any) => {
         personalizations.push({
           to: user.email, // replace this with your email address
           subject: `🍩 This is weekly subscriber mail ${msg?.fields.routingKey} 🍩`,
-          html: `<h1>Hello ${
-            user.subscriberName
-          }</h1><div>${msg?.content.toString()}</div>`, // html body
+          // html: `<h1>Hello ${
+          //   user.subscriberName
+          // }</h1><div>${msg?.content.toString()}</div>`, // html body
+          html: mailTemplate(msg?.content.toString()),
         });
       }
     });

@@ -4,8 +4,7 @@ import mongoose from "mongoose";
 import Server from "./server/Server";
 var bodyParser = require("body-parser");
 import { executableCron } from "./functions/cronJobs";
-import express from "express";
-// let ejs = require('ejs');
+import express, { Request, Response } from "express";
 
 async function main() {
   require("dotenv").config();
@@ -15,10 +14,12 @@ async function main() {
   server.app.use(cors());
   server.app.use(bodyParser.json());
   server.app.use(express.static("public"));
-  server.app.use("/css", express.static(__dirname + "public/stylesheets"));
-  server.app.use("/js", express.static(__dirname + "public/javascripts"));
-  server.app.use("/img", express.static(__dirname + "public/images"));
-  server.app.set("view engine", 'ejs')
+  server.app.set("views", __dirname + "/views");
+  server.app.set("view engine", "ejs");
+  // just testing, dont mind it
+  server.app.get("/", (req: Request, res: Response) => {
+    res.render("index", { title: "Hey", message: "Hello there!" });
+  });
   //
   server.app.use("/api", routes);
   server.start(() => {
