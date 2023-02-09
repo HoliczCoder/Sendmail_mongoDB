@@ -3,10 +3,26 @@ import { Subscriber } from "../models/subscriber.model";
 import mongoose from "mongoose";
 export const createSubscriber = async (req: Request, res: Response) => {
   try {
+    if (!req.body.categories.length) {
+      res.status(400).json({
+        result: "you have to add your category",
+      });
+    }
+    if (!req.body.subscriberName) {
+      res.status(400).json({
+        result: "you have to add your user name",
+      });
+    }
+    if (!req.body.email) {
+      res.status(400).json({
+        result: "you have to add your email",
+      });
+    }
+    ////////
     const subscriber = new Subscriber({
       subscriberName: req.body.subscriberName,
       email: req.body.email,
-      category: [...req.body.category],
+      categories: [...req.body.categories],
     });
     const result = await subscriber.save();
     console.log("successful", result);

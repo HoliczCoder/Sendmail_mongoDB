@@ -17,6 +17,16 @@ const cateogries = [
   "Product",
   "Other",
 ];
+
+function findProperty(array: any, propertyName: string, propertyValue: string) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i][propertyName] === propertyValue) {
+      return true;
+    }
+  }
+  return false;
+}
+
 const limitNumber = 3; // limit number subscriber each send batch
 const handleQueue = async (msg: any) => {
   // get all subscriber
@@ -44,7 +54,7 @@ const handleQueue = async (msg: any) => {
     const listUSer = subscriber.slice(i, i + limitNumber);
     //
     listUSer.forEach((user) => {
-      if (user.category.includes(msg?.fields.routingKey)) {
+      if (findProperty(user.categories, "category", msg?.fields.routingKey)) {
         personalizations.push({
           to: user.email, // replace this with your email address
           from: "Minh Tran Cong <minhtranconglis@gmail.com>",
@@ -67,7 +77,6 @@ const handleQueue = async (msg: any) => {
     }
   }
 };
-
 export const createMessage = async (req: Request, res: Response) => {
   try {
     // create channel
