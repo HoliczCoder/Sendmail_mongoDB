@@ -157,6 +157,8 @@ export default function mailTemplate(
                           {{message}}
                           </div>
                         </p>
+                        <div>{{user_id}}</div>
+                        <div>{{categoryId}}</div>
                         <a
                           href="http://localhost:3000/api/subscriber/unsubscribe/{{user_id}}/{{categoryId}}"
                           style="
