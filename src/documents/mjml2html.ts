@@ -1,14 +1,18 @@
 import { compile } from "handlebars";
 import mjml2html = require("mjml");
 
-export default function mailTemplate(message: string) {
+export default function mailTemplate(
+  name: string,
+  email: string,
+  message: string
+) {
   //   const template = compile(`
   // <mjml>
   //   <mj-body>
   //     <mj-container>
   //       <mj-section>
   //         <mj-column>
-  //           <mj-text>Hello {{message}}</mj-text>
+  //           <mj-text>Hello {{name}}</mj-text>
   //         </mj-column>
   //       </mj-section>
   //     </mj-container>
@@ -109,7 +113,7 @@ export default function mailTemplate(message: string) {
                         >
                           Get started
                         </h1>
-                        <p
+                        <h1
                           style="
                             font-size: 15px;
                             color: #455056;
@@ -117,8 +121,8 @@ export default function mailTemplate(message: string) {
                             line-height: 24px;
                           "
                         >
-                          {{message}}
-                        </p>
+                          {{name}}
+                        </h1>
                         <span
                           style="
                             display: inline-block;
@@ -146,19 +150,11 @@ export default function mailTemplate(message: string) {
                               font-weight: normal;
                             "
                             >Username</strong
-                          >wendell@xyz.com
-                          <strong
-                            style="
-                              display: block;
-                              font-size: 13px;
-                              margin: 24px 0 4px 0;
-                              font-weight: normal;
-                              color: rgba(0, 0, 0, 0.64);
-                            "
-                            >Password</strong
-                          >f1_M1@j3[I2~
+                          >{{email}}
+                          <div>
+                          {{message}}
+                          </div>
                         </p>
-  
                         <a
                           href="login.html"
                           style="
@@ -174,7 +170,7 @@ export default function mailTemplate(message: string) {
                             display: inline-block;
                             border-radius: 50px;
                           "
-                          >Login to your Account</a
+                          >Unsubsribe? Click here</a
                         >
                       </td>
                     </tr>
@@ -213,6 +209,8 @@ export default function mailTemplate(message: string) {
   </html>`
   );
   const context = {
+    name,
+    email,
     message,
   };
   const mjml = template(context);

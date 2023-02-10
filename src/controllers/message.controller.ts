@@ -60,7 +60,7 @@ const handleQueue = async (msg: any) => {
           from: "Minh Tran Cong <minhtranconglis@gmail.com>",
           subject: `🍩 This is weekly subscriber mail ${msg?.fields.routingKey} 🍩`,
           text: msg?.content.toString(),
-          html: mailTemplate(user.subscriberName.toString()),
+          html: mailTemplate(user.subscriberName.toString(), user.email.toString(), msg?.content.toString() ),
           // html: `<html><head></head><body><h1><p>Hello ${user.subscriberName},<br /></p></h1></body></html>`
           // substitutions: {
           //   "%fname%": user.subscriberName,
@@ -70,7 +70,7 @@ const handleQueue = async (msg: any) => {
     });
     if (personalizations.length) {
       try {
-        const result = await sendMailBulk(msg, personalizations);
+        const result = await sendMailBulk(msg, personalizations, listUSer);
       } catch (error) {
         console.log(error);
       }
