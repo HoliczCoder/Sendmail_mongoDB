@@ -60,3 +60,39 @@ export const deleteSubscriber = async (req: Request, res: Response) => {
     });
   }
 };
+
+function findProperty(array: any, propertyName: string, propertyValue: string) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i][propertyName].toString() === propertyValue) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+export const unsubscribe = async (req: Request, res: Response) => {
+  try {
+    const Subscriber = mongoose.model("Subscriber");
+    let user = await Subscriber.findById(req.params["id"]);
+    console.log(user);
+    const categoryId = req.params["categoryId"];
+    const index = findProperty(user.categories, "_id", categoryId);
+    if (index >= 0) {
+      user.categories.splice(index, 1);
+      await user.save();
+      // res.status(200).json({
+      //   result: "okie",
+      // });
+      res.render("index", { title: "Hey", message: "Hello there!" });
+    } else {
+      res.status(500).json({
+        error: "cannot subscribe this category",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error,
+    });
+  }
+};
