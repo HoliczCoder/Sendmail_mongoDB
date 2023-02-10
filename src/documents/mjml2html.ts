@@ -4,7 +4,8 @@ import mjml2html = require("mjml");
 export default function mailTemplate(
   name: string,
   email: string,
-  message: string
+  message: string,
+  user_id: string
 ) {
   //   const template = compile(`
   // <mjml>
@@ -212,6 +213,7 @@ export default function mailTemplate(
     name,
     email,
     message,
+    user_id
   };
   const mjml = template(context);
   // const html = mjml2html(mjml);
