@@ -21,10 +21,10 @@ const cateogries = [
 function findProperty(array: any, propertyName: string, propertyValue: string) {
   for (let i = 0; i < array.length; i++) {
     if (array[i][propertyName] === propertyValue) {
-      return true;
+      return i;
     }
   }
-  return false;
+  return -1;
 }
 
 const limitNumber = 3; // limit number subscriber each send batch
@@ -54,13 +54,24 @@ const handleQueue = async (msg: any) => {
     const listUSer = subscriber.slice(i, i + limitNumber);
     //
     listUSer.forEach((user) => {
-      if (findProperty(user.categories, "category", msg?.fields.routingKey)) {
+      const index = findProperty(
+        user.categories,
+        "category",
+        msg?.fields.routingKey
+      );
+      if (index >= 0) {
         personalizations.push({
           to: user.email, // replace this with your email address
           from: "Minh Tran Cong <minhtranconglis@gmail.com>",
           subject: `🍩 This is weekly subscriber mail ${msg?.fields.routingKey} 🍩`,
           text: msg?.content.toString(),
-          html: mailTemplate(user.subscriberName.toString(), user.email.toString(), msg?.content.toString(), user._id ),
+          html: mailTemplate(
+            user.subscriberName.toString(),
+            user.email.toString(),
+            msg?.content.toString(),
+            user._id.toString(),
+            user.categories[index]._id.toString()
+          ),
           // html: `<html><head></head><body><h1><p>Hello ${user.subscriberName},<br /></p></h1></body></html>`
           // substitutions: {
           //   "%fname%": user.subscriberName,

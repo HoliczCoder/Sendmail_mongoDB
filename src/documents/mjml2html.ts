@@ -5,7 +5,8 @@ export default function mailTemplate(
   name: string,
   email: string,
   message: string,
-  user_id: string
+  user_id: string,
+  categoryId: string
 ) {
   //   const template = compile(`
   // <mjml>
@@ -157,7 +158,7 @@ export default function mailTemplate(
                           </div>
                         </p>
                         <a
-                          href="login.html"
+                          href="http://localhost:3000/api/subscriber/unsubscribe/{{user_id}}/{{categoryId}}"
                           style="
                             background: #20e277;
                             text-decoration: none !important;
@@ -213,7 +214,8 @@ export default function mailTemplate(
     name,
     email,
     message,
-    user_id
+    user_id,
+    categoryId
   };
   const mjml = template(context);
   // const html = mjml2html(mjml);

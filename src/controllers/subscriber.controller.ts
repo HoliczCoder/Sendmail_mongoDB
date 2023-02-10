@@ -80,18 +80,15 @@ export const unsubscribe = async (req: Request, res: Response) => {
     if (index >= 0) {
       user.categories.splice(index, 1);
       await user.save();
-      res.status(200).json({
-        result: "okie",
+      // res.status(200).json({
+      //   result: "okie",
+      // });
+      res.render("index", { title: "Hey", message: "Hello there!" });
+    } else {
+      res.status(500).json({
+        error: "cannot subscribe this category",
       });
     }
-    // const index = user.categories.indexOf(category);
-    // user = user.splice(index, 1);
-    // await user.save();
-    // console.log("remove category successfully");
-    // res.json({
-    //   id: req.params["id"],
-    //   category: req.params["categoryId"],
-    // });
   } catch (error) {
     console.log(error);
     res.status(500).json({
