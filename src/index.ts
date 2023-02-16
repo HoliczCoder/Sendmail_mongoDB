@@ -8,7 +8,7 @@ import express, { Request, Response } from "express";
 
 async function main() {
   require("dotenv").config();
-  const result = await mongoose.connect(process.env.DATABASE_URL as string);
+  await mongoose.connect(process.env.DATABASE_URL as string);
   const server = Server.init(Number(process.env.PORT));
   //
   server.app.use(cors());
@@ -16,11 +16,6 @@ async function main() {
   server.app.use(express.static("public"));
   server.app.set("views", __dirname + "/views");
   server.app.set("view engine", "ejs");
-  // just testing, dont mind it
-  server.app.get("/", (req: Request, res: Response) => {
-    res.render("index", { title: "Hey", message: "Hello there!" });
-  });
-  //
   server.app.use("/api", routes);
   server.start(() => {
     console.log(

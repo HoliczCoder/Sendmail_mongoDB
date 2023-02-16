@@ -1,7 +1,5 @@
-import * as nodemailer from "nodemailer";
-import * as jwt from "jsonwebtoken";
 import sgMail from "@sendgrid/mail";
-import mongoose from "mongoose";
+import * as nodemailer from "nodemailer";
 
 export const sendMail = async (
   message: any,
@@ -32,7 +30,7 @@ export const sendMail = async (
   }
 };
 
-// send mail bulk here
+// send mail bulk here !!!!!!!!!!!!
 
 function findProperty(array: any, propertyName: string, propertyValue: string) {
   for (let i = 0; i < array.length; i++) {

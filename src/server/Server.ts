@@ -1,6 +1,5 @@
 import * as server from 'http'
 const express = require('express')
-// import { Server as io } from "socket.io";
 
 export default class Server {
     public app: any;

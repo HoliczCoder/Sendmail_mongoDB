@@ -1,9 +1,8 @@
 import { Router } from "express";
-import { Request, Response } from "express";
 import {
   createSubscriber,
-  getSubscriber,
   deleteSubscriber,
+  getSubscriber,
   unsubscribe
 } from "../controllers/subscriber.controller";
 const router = Router();
