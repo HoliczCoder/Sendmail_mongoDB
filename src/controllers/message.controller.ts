@@ -72,10 +72,6 @@ const handleQueue = async (msg: any) => {
             user._id.toString(),
             user.categories[index]._id.toString()
           ),
-          // html: `<html><head></head><body><h1><p>Hello ${user.subscriberName},<br /></p></h1></body></html>`
-          // substitutions: {
-          //   "%fname%": user.subscriberName,
-          // },
         });
       }
     });
