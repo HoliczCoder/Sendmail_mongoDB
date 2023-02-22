@@ -1,6 +1,4 @@
-import mongoose, { now } from "mongoose";
-import validator from "validator";
-import crypto from "crypto";
+import mongoose from "mongoose";
 
 const subscriber = new mongoose.Schema({
   subscriberName: String,
