@@ -16,7 +16,7 @@ Here is the instruction
 5. Add above values to .env file
    PORT=3000
    DATABASE_URL =""
-   AMPQ_URL_CLOUD =""
+   AMPQ_URL_CLOUD ="" 
    SENDGRID_API_KEY_SECOND=""
 
 6. Go to Subscriber.controller.ts
@@ -31,4 +31,4 @@ Here is the instruction
 - It contains unsubscribe button to unsubscribe cateogory
 - If mail sent failed, isSendingFail field in subscriber will change to true
 - If mail sent sucessfully, lastSendDate will be updated
-- CronJob can be used but never tested
+- CronJob can be used but never tested before
