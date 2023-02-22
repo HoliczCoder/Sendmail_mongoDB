@@ -28,7 +28,7 @@ Here is the instruction
 - using API createMessage for testing create message
 - Each mail will send to subscriber with cateogory they subscribed
 - Mail template is in documents/mjml2html.ts
-- It contains unsubscribe button
+- It contains unsubscribe button to unsubscribe cateogory
 - If mail sent failed, isSendingFail field in subscriber will change to true
 - If mail sent sucessfully, lastSendDate will be updated
 - CronJob can be used but never tested
